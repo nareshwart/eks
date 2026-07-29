@@ -1,7 +1,5 @@
 # 🐳 Docker Container Lifecycle Commands
 
-A complete reference guide for managing Docker containers through their full lifecycle.
-
 ---
 
 ## 1. Image Management (Before Container)
@@ -37,9 +35,9 @@ docker rmi nginx
 | `docker run -it <image> bash` | Run container interactively with a shell |
 | `docker run --name <name> <image>` | Assign a custom name to the container |
 | `docker run -p <host>:<container> <image>` | Map host port to container port |
-| `docker run -v <host_path>:<container_path> <image>` | Mount a volume |
 | `docker run --rm <image>` | Auto-remove container when it exits |
 | `docker run -e VAR=value <image>` | Pass environment variables |
+| `docker run -v <host_path>:<container_path> <image>` | Mount a volume |
 
 ### Examples
 ```bash
