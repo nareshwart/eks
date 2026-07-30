@@ -46,12 +46,15 @@ echo "[$DATE] Old packages cleaned up."
 echo ""
 echo "[$DATE] STEP 2: Installing required dependencies..."
 
+# NOTE: AL2023 ships with curl-minimal by default.
+# Installing the full 'curl' package conflicts with curl-minimal.
+# curl-minimal is sufficient for Docker repo setup — do NOT install curl.
 dnf install -y \
     dnf-plugins-core \
-    curl \
     git
 
 echo "[$DATE] Dependencies installed."
+
 
 # -----------------------------------------------
 # STEP 3: Add Docker's official repository
