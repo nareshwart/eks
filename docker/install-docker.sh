@@ -62,11 +62,29 @@ echo "[$DATE] Dependencies installed."
 echo ""
 echo "[$DATE] STEP 3: Adding Docker's official repository..."
 
-# Add Docker CE repo for AL2023 (uses RHEL/Fedora-compatible repo)
-dnf config-manager --add-repo \
-    https://download.docker.com/linux/rhel/docker-ce.repo
+# NOTE: AL2023 version string (e.g. 2023.12.xxx) breaks dnf config-manager
+# auto-detection — it generates a 404 URL. Fix: manually write the repo file
+# using the explicit RHEL 9 baseurl (AL2023 is RHEL 9 compatible).
 
-echo "[$DATE] Docker repo added."
+cat > /etc/yum.repos.d/docker-ce.repo << 'EOF'
+[docker-ce-stable]
+name=Docker CE Stable - $basearch
+baseurl=https://download.docker.com/linux/rhel/9/$basearch/stable
+enabled=1
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-stable-debuginfo]
+name=Docker CE Stable - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/rhel/9/debug-$basearch/stable
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+EOF
+
+echo "[$DATE] Docker repo file created at /etc/yum.repos.d/docker-ce.repo"
+dnf makecache
+echo "[$DATE] Docker repo metadata refreshed."
 
 # -----------------------------------------------
 # STEP 4: Install Docker CE (latest version)
